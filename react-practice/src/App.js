@@ -1,18 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import UserOutput from './components/UserOutput/UserOutput'
 import './App.css';
 
 class App extends Component {
+
+  state = {
+    userName: 'Daryl Magera',
+    age: 21,
+    hair: 'black',
+    gender: 'male'
+  }
+
+  userNameChangeHandler = (event) => {
+    this.setState({userName: event.target.value})
+  }
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+
+        <UserOutput user={this.state.userName}
+                    age={this.state.age}
+                    hair={this.state.hair}
+                    gender={this.state.gender}
+                    changeName={this.userNameChangeHandler}
+                    currentName={this.state.userName}/>
+        
       </div>
     );
   }
