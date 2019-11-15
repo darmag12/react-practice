@@ -1,0 +1,14 @@
+.name__container{
+    display: flex;
+    justify-content: center;
+}
+
+
+.name-list{
+    list-style: none;
+    margin: .6rem;
+    font-size: 1rem;
+    border: .5px solid rgb(194, 194, 194);
+    width: fit-content;
+    background-color: rgb(240, 255, 248);
+}

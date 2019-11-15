@@ -1,51 +1,43 @@
-import React, { Component } from 'react';
-import Validation from './components/Validation/Validation'
-import Char from './components/Char/Char'
+import React, { useState, useEffect } from 'react';
+import { data } from './dummyData'
+import NameList from './components/NameList/NameList'
+import Search from './components/Search/Search'
+import NameForm from './components/NameForm/NameForm';
 import './App.css';
 
-class App extends Component {
 
-  state = {
-    charLength: 0,
-    char: ''
+
+const App = () => {
+  const [name, setName ] = useState(data);
+
+  const [searchTerm, setSearchTerm] = useState("")
+  const [searchResults, setSearchResults] = useState([])
+
+  useEffect(() => {
+    let results = name.filter(n => (
+      n.toLowerCase().includes(searchTerm.toLowerCase())
+    ))
+      setSearchResults(results);
+      
+  }, [searchTerm])
+
+
+  const changeHandler = (e) => {
+    setSearchTerm(e.target.value)
   }
 
-  LengthOutputHandler = (event) => {
-    this.setState({
-      charLength: event.target.value.length,
-      char: event.target.value
-    })
+  const addName = (newName) => {
+    setSearchResults([...searchResults, newName])
   }
-
-  deleteCharHandler = (id) => {
-
-    const newState = this.state.char.split('')
-     newState.splice(id, 1);
-     const updated = newState.join('');
-
-    this.setState({
-      charLength: updated.length,
-      char: updated
-    });
-  }
-
- 
-  render() {
-    const singleChar = this.state.char.split('').map((char, index) => {
-      return (<Char character={char}
-             key={index}
-             delete={() => this.deleteCharHandler(index)}/>)
-    })
 
     return (
       <div className="App">
-        <input type="text" value={this.state.char} onChange={this.LengthOutputHandler}/>
-        <p>{this.state.charLength}</p>
-        <Validation charLength={this.state.charLength}/>
-        {singleChar}
+        <Search changeHandler={changeHandler} searchTerm={searchTerm}/>
+        <NameForm addName={addName}/>
+        <NameList names={searchResults}/>
       </div>
     );
-  }
+  
 }
 
 export default App;
